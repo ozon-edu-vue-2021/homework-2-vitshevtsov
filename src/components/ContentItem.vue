@@ -15,8 +15,8 @@ export default {
   props: {
     item: Object,
     pathToSelected: String,
-    selectedId: String
-
+    selectedId: String,
+    pathToItem: String
   },
   data: function () {
     return {
@@ -29,18 +29,18 @@ export default {
   created() {
     this.id = this.item.name + ' ' + Date.now();
   },
-  
+
   // если согласно пропсам, наш элемент сейчас выделен,
   //  при закрытии папки-родителя передаем наверх инфу о снятии выделения
   beforeDestroy() {
-    if (this.id === this.selectedId) {
+    if (`${this.pathToItem}/${this.item.name}` === `/${this.pathToSelected}`) {
       this.$emit("click-on-content", '', undefined);
     }
   },
 
   computed: {
     isSelected: function () {
-      return this.id === this.selectedId;
+      return `${this.pathToItem}/${this.item.name}` === `/${this.pathToSelected}`;
     }
   },
 
@@ -49,7 +49,7 @@ export default {
     // то дальше передаем наверх его имя и id для формирования пути и сохранения id,
     // в противном случае это повторный клик по элементу - выделение снимается
     clickHandler(item) {
-      if (this.id !== this.selectedId) {
+      if (`${this.pathToItem}/${this.item.name}` !== `/${this.pathToSelected}`) {
         this.$emit("click-on-content", item.name, this.id);
       } else {
         this.$emit("click-on-content", '', undefined);
