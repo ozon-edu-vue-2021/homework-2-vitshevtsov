@@ -5,6 +5,7 @@
       :item="item"
       :pathToSelected="pathToSelected"
       :selectedId="selectedId"
+      :path-to-item="''"
       v-on:click-on-content="clickOnContent"
     />
   </div>
@@ -20,7 +21,7 @@ export default {
   props: {
     item: Object,
   },
-  
+
   // храним здесь путь к текущему выделенному файлу / ссылке, и его ID
   data: function () {
     return {
@@ -29,7 +30,7 @@ export default {
     };
   },
   methods: {
-    
+
     // метод принимает путь к выделенному файлу / ссылке, и его ID
     clickOnContent(pathToSelectedEl, selectedElId) {
         this.pathToSelected = pathToSelectedEl;

@@ -1,6 +1,6 @@
 <template>
   <li>
-    <div 
+    <div
       class="folder-wrapper"
       v-on:click="isOpen = !isOpen"
     >
@@ -13,16 +13,17 @@
         <span>{{ item.name }}</span>
       </div>
     </div>
-    <ul 
-      v-if="isOpen" 
+    <ul
+      v-if="isOpen"
     >
-      <div 
-        v-for="(child, index) in item.contents" 
+      <div
+        v-for="(child, index) in item.contents"
         :key="index">
           <folder-item
             v-if="child.type === 'directory'"
             :pathToSelected="pathToSelected"
             :selectedId="selectedId"
+            :path-to-item="`${pathToItem}/${item.name}`"
             v-bind:item="child"
             v-on:click-on-content="clickHandler"
           />
@@ -30,6 +31,7 @@
             v-else
             :pathToSelected="pathToSelected"
             :selectedId="selectedId"
+            :path-to-item="`${pathToItem}/${item.name}`"
             v-bind:item="child"
             v-on:click-on-content="clickHandler"
           />
@@ -46,7 +48,8 @@ export default {
   props: {
     item: Object,
     pathToSelected: String,
-    selectedId: String
+    selectedId: String,
+    pathToItem: String
   },
   components: {
     ContentItem,
@@ -68,7 +71,7 @@ export default {
     clickHandler(selectedName, selectedId) {
         this.$emit(
           "click-on-content",
-          this.item.name + " / " + selectedName,
+            this.item.name ? `${this.item.name}/${selectedName}` : selectedName,
           selectedId
         );
     }
